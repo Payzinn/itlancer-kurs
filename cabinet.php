@@ -26,7 +26,7 @@ include "components/header.php";
                 <p>Ваш портфолио ещё не настроен!</p>
                 <a href="make_portfolio.php" class='portfolio_link'>Настроить портфолио</a>
                 <?php }else{ ?>
-                    <a href="portfolio.php" class='portfolio_link'>Портфолио</a>
+                    <a href="portfolio.php?user_id=<?php echo $_SESSION['user']['id'] ?>" class='portfolio_link'>Портфолио</a>
                     <?php } ?>
             </div>
         </div>

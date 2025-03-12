@@ -29,6 +29,7 @@ $select_specialists_res = $link->query($select_specialists);
                     <a href="" style="    color: rgb(116, 116, 239);
 "><?php echo $row['user_login'] ?></a>
                     <p>Дата первого захода на сайт: <?php echo $row['user_date'] ?></p>
+                    <h2>Специализация</h2>
                     <h3><?php echo $row['spheres_name'] ?></h3>
                     <p><?php echo $row['sphere_types_name'] ?></p>
             </div>
