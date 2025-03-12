@@ -1,0 +1,49 @@
+<?php
+include "components/core.php";
+include "components/header.php";
+?>
+
+<div class="page_header">
+    <div class="content">
+        <div class="page_header_center">
+            <h1>Мой портфолио</h1>
+        </div>
+    </div>
+</div>
+<?php 
+$select_portfolio = "SELECT `portfolio`.*, `sphere_types`.`name` AS `spheres_types_name`, `spheres`.`name` AS `spheres_name`
+FROM `portfolio` 
+	LEFT JOIN `sphere_types` ON `portfolio`.`sphere_type_id` = `sphere_types`.`id` 
+	LEFT JOIN `spheres` ON `sphere_types`.`sphere_id` = `spheres`.`id`";
+$select_portfolio_res = $link->query($select_portfolio);
+$portfolio = $select_portfolio_res -> fetch_assoc();
+?>
+
+<div class="my_portfolio">
+    <div class="content">
+        <div class="my_portfolio_block">
+            <a href="make_portfolio.php?hour=<?php echo $portfolio['hour_salary'] ?>?month=<?php echo $portfolio['month_salary'] ?>?experience=<?php echo $portfolio['experience'] ?>?resume_text=<?php echo $portfolio['resume_text'] ?>">Изменить профиль</a>
+            <div class="my_portfolio_block-item standart">
+                <h2>Почасовая оплата</h2>
+                <p><?php echo $portfolio['hour_salary'] ?></p>
+            </div>
+            <div class="my_portfolio_block-item standart">
+                <h2>Помесячная оплата</h2>
+                <p><?php echo $portfolio['month_salary'] ?></p>
+            </div>
+            <div class="my_portfolio_block-item standart">
+                <h2>Опыт</h2>
+                <p><?php echo $portfolio['experience'] ?></p>
+            </div>
+            <div class="my_portfolio_block-item standart">
+                <h2>Описание опыта работы</h2>
+                <p><?php echo $portfolio['resume_text'] ?></p>
+            </div>
+            <div class="my_portfolio_block-item standart">
+                <h2>Сфера работы</h2>
+                <h3><?php echo $portfolio['spheres_name'] ?></h3>
+                <p><?php echo $portfolio['spheres_types_name'] ?></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,26 +4,49 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Ubuntu", serif;
+
 }
 
-.footer{
-    margin-top: 50px;
-    position: relative;
+body{
+    background-color: #161616;
     color: white;
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%);
-    padding: 10px;
-    min-height: 100px;
 }
 
-.footer_block-item{
+.standart{
+    background-color: rgba(50, 50, 50, 100);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 550px;
+    margin: 10px;
+}
+
+.footer {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    min-height: 100px;
+    position: absolute;
+    background-color: rgba(50, 50, 50, 100);
+    color: white;
+    font-weight: 500;
     display: flex;
     justify-content: center;
-}
+    align-items: center;
+  }
 
 .content{
     max-width: 1000px;
     margin: 0 auto;
+
+}
+
+.indent{
+    margin-bottom: 50px;
+    position: relative;
 }
 
 .main{
@@ -33,7 +56,7 @@
     
 }
 .header{
-    background-color: rgb(61, 61, 168);
+    background-color: rgba(50, 50, 50, 100);
     margin-bottom: 50px;
     padding: 10px;
     position: relative;
@@ -58,31 +81,26 @@
 
 .header_item .logo{
     position: absolute;
-    font-family: "Ubuntu", serif;    
+    font-family: "Ubuntu", serif;   
+    color: rgb(77, 77, 210); 
     padding: 10px;   
     font-size: 25px;
     font-weight: bold;
     left: 0;    
-}
-
-.reg_header{
-    background-color: rgb(50, 50, 139);
-    padding: 10px;
     transition: .2s;
 }
+.header_item .logo:hover{
+    color: #803fc0;
 
-.reg_header:hover{
-    background-color: rgb(40, 40, 110);
 }
 
 .link{
-    background-color: rgb(61, 61, 168);
     padding: 10px;
     transition: .2s;
 }
 
 .link:hover{
-    background-color: rgb(71, 71, 196);
+    color: #cdcdcd;
 }
 
 /* reg.php */
@@ -134,6 +152,7 @@
     display: flex;
     justify-content: center;
     font-size: 25px;
+    margin-bottom: 50px;
 }
 .form__block{
     display: flex;
@@ -156,13 +175,12 @@ form{
     flex-direction: column;
     gap: 10px;
     margin: 10px;
-    max-width: 360px;
 }
 
-form input, button{
+form input, button, select{
     font-size: 16px;
     outline: none;
-    width: 360px;
+    border-radius: 10px;
 }
 
 
@@ -172,15 +190,20 @@ form input{
 }
 
 form button{
-    background-color: rgb(79, 190, 28);
+    background-color: rgb(77, 77, 210); 
     color: white;
     padding: 10px;
     transition: .2s;
     border: none;
 }
 form button:hover{
-    background-color: rgb(65, 151, 25);
+    background-color: #803fc0;
     cursor: pointer;
+}
+
+form textarea{
+    border-radius: 10px;
+    padding: 10px;
 }
 
 /* index.php */
@@ -212,13 +235,14 @@ form button:hover{
 .find_btn a{
     text-decoration: none;
     background-color: rgb(61, 61, 168);
+    border-radius: 10px;
     padding: 10px;
     color: white;
     transition: .2s;
 }
 
 .find_btn a:hover{
-    background-color: rgb(49, 49, 134);
+    background-color: #803fc0;
 }
 
 .categories_block{
@@ -229,11 +253,22 @@ form button:hover{
     grid-row-gap: 10px;
 }
 
+.categories_block-item__header a{
+    font-size: 25px;
+    text-decoration: none;
+    color: rgb(116, 116, 239);
+    transition: .2s;
+
+}
+
+.categories_block-item__header a:hover{
+    color: #803fc0;
+}
+
 .categories_block-item{
     padding: 10px;
-    background-color: white;
-    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    background-color: rgba(50, 50, 50, 100);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -243,4 +278,275 @@ form button:hover{
     display: flex;
     flex-direction: row;
     gap: 5px;
+}
+
+/* cabinet.php */
+
+.info_user{
+    display: flex;
+    justify-content: center;
+}
+.info_user_block{
+    background-color: rgba(50, 50, 50, 100);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 550px;
+    border-radius: 10px;
+    
+}
+.info_user_items{
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+}
+
+.profile{
+    background-color: rgb(206, 206, 206);
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    transition: .2s;
+}
+
+.info_user_header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.active{
+    background-color: gray;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+.profile:hover{
+    color: white;
+    background-color: gray;
+}
+
+.info_user_center{
+    display: flex;
+    justify-content: center;
+}
+
+.info_user_department{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.portfolio_block{
+    background-color: rgba(50, 50, 50, 100);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 550px;
+    margin: 10px;
+}
+
+.portfolio_wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.portfolio_link{
+    color: rgb(116, 116, 239);
+}
+
+/* orders.php */
+.orders_block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+.orders_block_item{
+    background-color: rgba(50, 50, 50, 100);
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+}
+
+.order{
+    color: rgb(116, 116, 239);
+    text-decoration: none;
+    transition: .2s;
+    font-weight: bolder;
+    font-size: 150%;
+}
+
+.order:hover{
+    color: #7d34c6;
+}
+
+.orders_block_item-statistics{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.orders_block_item-tags{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.tag{
+    padding: 5px;
+    background-color: rgb(255, 252, 249);
+    color: black;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.order_block_item_main{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.order_block_wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.price{
+    color: green;
+}
+
+/* makeorder.php */
+.order_block{
+    background-color: rgba(50, 50, 50, 100);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 550px;
+}
+
+.label{
+    color: white;
+}
+
+.desc{
+    padding: 5px;
+}
+
+.choose_sphere{
+    padding: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    background-color: gray;
+    color: white;
+    transition: .2s;
+}
+
+.choose_sphere:hover{
+    background-color: rgb(152, 152, 152);
+}
+
+.form-item-price{
+    display: flex;
+    flex-direction: row;
+}
+
+.file-preview {
+    margin-top: 10px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.remove-btn {
+    margin-left: auto;
+    cursor: pointer;
+    color: red;
+    padding: 0 8px;
+}
+
+.cancel_price{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cancel_price p{
+    font-size: 14px;
+}
+
+/* order.php */
+
+.worker_feedback_block .form__block {
+    display: flex;
+    justify-content: center;
+}
+.worker_feedback_block .form__block input, button, textarea{
+    min-width: 500px;
+}
+
+/* STYLE FOR MODAL */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 9999; 
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+    background-color: #fff;
+    color: black;
+    margin: 10% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; 
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+}
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+.close:hover {
+    color: black;
+}
+.sphere-list {
+    margin-top: 20px;
+}
+.sphere-list h3 {
+    cursor: pointer;
+    margin: 8px 0;
+}
+.sphere-list ul {
+    list-style: none;
+    margin: 0; 
+    padding: 0;
+}
+.sphere-list li {
+    margin: 5px 0;
+    cursor: pointer;
+}
+.sphere-list li:hover {
+    text-decoration: underline;
 }

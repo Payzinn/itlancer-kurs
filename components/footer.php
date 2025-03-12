@@ -1,7 +1,2 @@
-<div class="footer">
-    <div class="footer_block">
-        <div class="footer_block-item">
-            <p>Сайт сделал Никита</p>
-        </div>
-    </div>
-</div>
+<!-- <div class="footer">&copy;<span> IT-Lancer. Все права защищены.</span></div> -->
+<script src="/script/script.js" defer></script>

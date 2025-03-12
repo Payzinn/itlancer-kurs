@@ -14,16 +14,14 @@ include "components/header.php";
     <div class="main">
         <div class="reg">
             <div class="content">
-                <div class="form__block">
-                    <?php
+            <?php
                     if(isset($_SESSION['error'])){
                     ?> 
-                        <h2 style="color: red;"><?php echo $_SESSION['error']; ?></h2>
+                        <h2 style="color: red; text-align:center;"><?php echo $_SESSION['error']; ?></h2>
                     <?php }unset($_SESSION['error']); ?> 
+
+                <div class="form__block">
                     <form action="actions/reg.php" method="post" class=''>
-                        <div class="form-item">
-                            <input type="text" name="fullname" placeholder='ФИО' required>
-                        </div>
                         <div class="form-item">
                             <input type="text" name="login" placeholder='Логин' required>
                         </div>
@@ -43,11 +41,11 @@ include "components/header.php";
                             <p>Выберите роль</p>
                             <div class="role">
                                 <label class="radio">
-                                    <input type="radio" name="role" value="customer" checked="">
-                                    <span class="name">Заказчик</span>
+                                    <input type="radio" name="role" value="1" >
+                                    <span class="name">Работодатель</span>
                                 </label>
                                 <label class="radio">
-                                    <input type="radio" name="role" value="freelancer">
+                                    <input type="radio" name="role" value="2">
                                     <span class="name">Фрилансер</span>
                                 </label>
                             </div>

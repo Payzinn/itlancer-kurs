@@ -14,8 +14,14 @@ include "components/header.php";
 <div class="main">
     <div class="reg">
         <div class="content">
+        <?php
+                    if(isset($_SESSION['error'])){
+                    ?> 
+                        <h2 style="color: red; text-align:center;"><?php echo $_SESSION['error']; ?></h2>
+                    <?php }unset($_SESSION['error']); ?> 
+                        
             <div class="form__block">
-                <form action="" method="post" class='form'>
+                <form action="actions/log.php" method="post" class='form'>
                     <div class="form-item">
                         <input type="text" name="login" placeholder='Логин' required>
                     </div>
