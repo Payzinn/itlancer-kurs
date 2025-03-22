@@ -100,8 +100,9 @@ if($_SESSION['user']['role_id'] == 1){
             foreach($my_responses_from_freelancers as $response){ 
             ?>
             <div class="info_user_items-item">
-            Исполнитель:<a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> <?php echo $response['response']['user_login']; ?></a>
-                <p>Заказ: <?php echo $response['response']['order_name']; ?></p>
+            Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> <?php echo $response['response']['user_login'];  ?></a>
+            <br>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>"><?php echo $response['response']['order_name']; ?></a>
+            <br>Посмотреть отклик: <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id'];?>">отклик</a>
                 <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
                 <p>Цена исполнителя: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
             </div>

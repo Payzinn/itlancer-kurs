@@ -558,3 +558,21 @@ form textarea{
 .sphere-list li:hover {
     text-decoration: underline;
 }
+
+/* response.php */
+
+.form-item-msg{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.chat_block{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-item-msg button{
+    width: 100px;
+}
