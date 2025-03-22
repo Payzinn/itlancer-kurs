@@ -15,7 +15,7 @@ $user_id = $_GET['user_id'];
                 $select_user_res = $link->query($select_user);
                 $user = $select_user_res->fetch_assoc();
                 ?>
-                <h1>Портфолио <?php echo $user['login']; ?></h1>
+                <h1>Профиль <?php echo $user['login']; ?></h1>
                 <?php } ?>
         </div>
     </div>
@@ -33,7 +33,11 @@ $portfolio = $select_portfolio_res -> fetch_assoc();
 <div class="my_portfolio">
     <div class="content">
         <div class="my_portfolio_block">
+            <?php
+            if($user_id == $_SESSION['user']['id']){
+            ?>
             <a href="make_portfolio.php?hour=<?php echo $portfolio['hour_salary'] ?>?month=<?php echo $portfolio['month_salary'] ?>?experience=<?php echo $portfolio['experience'] ?>?resume_text=<?php echo $portfolio['resume_text'] ?>">Изменить профиль</a>
+            <?php } ?>
             <div class="my_portfolio_block-item standart">
                 <h2>Почасовая оплата</h2>
                 <p><?php echo $portfolio['hour_salary'] ?></p>
@@ -43,7 +47,7 @@ $portfolio = $select_portfolio_res -> fetch_assoc();
                 <p><?php echo $portfolio['month_salary'] ?></p>
             </div>
             <div class="my_portfolio_block-item standart">
-                <h2>Опыт</h2>
+                <h2>Опыт в годах</h2>
                 <p><?php echo $portfolio['experience'] ?></p>
             </div>
             <div class="my_portfolio_block-item standart">

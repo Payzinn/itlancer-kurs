@@ -13,7 +13,11 @@
                 <div class="header_item">
                     <a href="./index.php" class="logo" >IT-lancer</a>
                     <a href="./orders.php" class="link">Заказы</a>
+                    <?php
+                    if(isset($_SESSION['user']) and $_SESSION['user']['role_id'] == 1){
+                    ?>
                     <a href="./makeorder.php" class="link">Разместить заказ</a>
+                    <?php } ?>
                     <!-- <a href="./vacancy.php" class="link">Вакансии</a> -->
                     <a href="./specialists.php" class="link">Специалисты</a>
                 </div>
@@ -23,10 +27,15 @@
                 <div class="header_item">
                     <a href="./login.php" class="link">Авторизация</a>
                     <a href="./reg.php" class="link">Регистрация</a>
-                    <?php }else{?>
+                    <?php }else{ ?>
                     <a href="./cabinet.php" class="link"><?php echo $_SESSION['user']['login']; ?></a>
                     <?php } ?>
                 </div>
             </div>
         </div>
     </div>
+    <?php
+    if(isset($_SESSION['user'])){
+        print_r($_SESSION['user']);
+    }
+    ?>

@@ -31,7 +31,7 @@ $order = $select_order_res->fetch_assoc();
         <div class="response_block standart">
             <h2>Информация об откликах</h2>
             <?php
-            $select_response = "SELECT * FROM `responses`";
+            $select_response = "SELECT * FROM `responses` WHERE `order_id` = $order_id";
             $select_response_res = $link->query($select_response);
             $responses = $select_response_res -> num_rows;
             if($responses < 1){
@@ -62,7 +62,9 @@ $order = $select_order_res->fetch_assoc();
         </div>
     </div>
 </div>
-
+<?php
+if(isset($_SESSION['user']) and $_SESSION['user']['role_id'] == 2){
+?>
 <div class="worker_feedback">
     <div class="content">
         <div class="worker_feedback_block standart">
@@ -74,13 +76,13 @@ $order = $select_order_res->fetch_assoc();
                             <textarea name="description" id="" cols="10" rows="10" placeholder="" required></textarea>
                         </div>
                         <div class="form-item">
-                            <label for="term">Срок исполнения</label>
-                            <input type="number" name="term" placeholder='Ваша цена' required>
+                            <label for="term">Срок исполнения в днях</label>
+                            <input type="number" name="term" placeholder='' required>
                         </div>
                         <div class="form-item">
                             <label for="responser_price">Ваша цена</label>
                             <input type="hidden" name="ord_id" value="<?php echo $order['ord_id'];?>">
-                            <input type="number" name="responser_price" placeholder='Ваша цена' value="<?php echo $order['ord_price']; ?>" required>
+                            <input type="number" name="responser_price" placeholder='' value="<?php echo $order['ord_price']; ?>" required>
                         </div>
                         <div class="form-item">
                             <button>Откликнуться</button>
@@ -90,3 +92,4 @@ $order = $select_order_res->fetch_assoc();
         </div>
     </div>
 </div>
+<?php } ?>
