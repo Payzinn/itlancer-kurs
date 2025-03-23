@@ -5,6 +5,7 @@ if(!isset($_SESSION['user']) or $_SESSION['user']['role_id'] != 1){
 }
 include "components/header.php";
 
+
 $response_id = intval($_GET['resp_id']);
 $order_id = intval($_GET['order_id']);
 
@@ -62,17 +63,20 @@ if($select_order_res->num_rows < 1){
     <div class="content">
         <div class="control_chat_block standart">
             <div class="form__block">
-                <form action="actions/reg.php" method="post" class=''>
+                <form id="chatForm">
                     <div class="form-item-msg">
-                        <input type="text" name="message" placeholder='Начните писать...' required>
-                        <button>Отправить</button>
+                        <input type="text" id="receiver_id" value="<?php echo $response['response']['freelancer_id']; ?>" placeholder="ID получателя" hidden>
+                        <input type="text" id="message" placeholder="Начните писать..." required>
+                        <button type="submit">Отправить</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 <?php
 }
+?>
+<?php
+include "components/footer.php";
 ?>

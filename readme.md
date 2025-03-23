@@ -1,0 +1,1 @@
+C:\OSPanel\modules\php\PHP_8.1\php.exe .\websocket_server.php

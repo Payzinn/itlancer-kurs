@@ -503,7 +503,6 @@ form textarea{
     justify-content: center;
 }
 .worker_feedback_block .form__block input, button, textarea{
-    min-width: 500px;
 }
 
 /* STYLE FOR MODAL */
@@ -571,8 +570,6 @@ form textarea{
     padding: 10px;
     display: flex;
     flex-direction: column;
-}
-
-.form-item-msg button{
-    width: 100px;
+    min-height: 300px;
+    overflow-y: scroll;
 }
