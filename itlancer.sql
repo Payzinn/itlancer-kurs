@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 21 2025 г., 15:38
+-- Время создания: Мар 23 2025 г., 21:17
 -- Версия сервера: 10.8.4-MariaDB
 -- Версия PHP: 8.1.9
 
@@ -40,6 +40,45 @@ CREATE TABLE `files` (
 INSERT INTO `files` (`id`, `path`, `order_id`) VALUES
 (13, 'uploads/67dd3d4dcfd6a_4.jpg', 12),
 (14, 'uploads/67dd3f13ae23c_⁺˚⋆୭🌸⋆⁺.jpg', 13);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `messages`
+--
+
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `message`, `created_at`) VALUES
+(1, 6, 7, '124', '2025-03-23 17:22:07'),
+(2, 6, 7, '34yt634y', '2025-03-23 17:25:40'),
+(3, 6, 7, '1', '2025-03-23 17:26:40'),
+(4, 6, 7, '1', '2025-03-23 17:30:03'),
+(5, 6, 7, '35y', '2025-03-23 17:30:10'),
+(6, 6, 7, 'привет', '2025-03-23 17:30:16'),
+(7, 6, 7, 'кцун', '2025-03-23 17:31:31'),
+(8, 6, 7, 'кцун', '2025-03-23 17:31:33'),
+(9, 6, 7, 'кцун', '2025-03-23 17:31:33'),
+(10, 6, 7, 'кцун', '2025-03-23 17:31:33'),
+(11, 6, 7, 'кцун', '2025-03-23 17:31:33'),
+(12, 6, 7, 'кцун', '2025-03-23 17:31:33'),
+(13, 6, 7, 'кцун', '2025-03-23 17:31:34'),
+(14, 6, 7, 'кцун', '2025-03-23 17:31:35'),
+(15, 6, 7, 'кцун', '2025-03-23 17:31:36'),
+(16, 6, 7, 'rwetwret', '2025-03-23 17:32:19'),
+(17, 6, 7, '23к', '2025-03-23 18:00:46'),
+(18, 6, 7, '23к', '2025-03-23 18:11:55'),
+(19, 6, 7, '23к', '2025-03-23 18:11:56');
 
 -- --------------------------------------------------------
 
@@ -87,7 +126,8 @@ CREATE TABLE `portfolio` (
 --
 
 INSERT INTO `portfolio` (`id`, `resume_text`, `hour_salary`, `month_salary`, `experience`, `sphere_type_id`, `user_id`) VALUES
-(2, 'rtuy4rwturtu', 56856865, 534325475, 77, 8, 5);
+(2, 'rtuy4rwturtu', 56856865, 534325475, 77, 8, 5),
+(3, 'я исполнитель', 600, 40000, 77, 8, 7);
 
 -- --------------------------------------------------------
 
@@ -330,6 +370,12 @@ ALTER TABLE `files`
   ADD KEY `order_id` (`order_id`);
 
 --
+-- Индексы таблицы `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `orders`
 --
 ALTER TABLE `orders`
@@ -426,6 +472,12 @@ ALTER TABLE `files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT для таблицы `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
@@ -435,7 +487,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `prices`
