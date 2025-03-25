@@ -570,6 +570,6 @@ form textarea{
     padding: 10px;
     display: flex;
     flex-direction: column;
-    min-height: 300px;
+    height: 600px;
     overflow-y: scroll;
 }
