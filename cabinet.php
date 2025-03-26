@@ -177,3 +177,4 @@ if($_SESSION['user']['role_id'] == 2){
         </div>
     </div>
 </div>
+<?php include "components/footer.php"; ?>

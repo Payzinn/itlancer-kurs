@@ -59,7 +59,6 @@ while (true) {
             $header = socket_read($newClient, 1024);
             perform_handshake($header, $newClient);
 
-            // Извлекаем GET-параметры из заголовка рукопожатия (например, ?user_id=6)
             if (preg_match("/GET\s(\/\?[^\s]+)\sHTTP/", $header, $matches)) {
                 $url = $matches[1];
                 $query = parse_url($url, PHP_URL_QUERY);
@@ -68,6 +67,7 @@ while (true) {
             } else {
                 $user_id = 0;
             }
+
             echo "Подключился пользователь: $user_id\n";
             sendChatHistory($newClient, $link, $user_id);
         } else {
@@ -78,6 +78,7 @@ while (true) {
                 socket_close($sock);
                 continue;
             }
+
             $message = json_decode(unmask($data), true);
             if ($message) {
                 $sender_id   = $message['sender_id'];
@@ -85,18 +86,33 @@ while (true) {
                 $text        = $message['text'];
                 $response_id = $message['response_id'] ?? 0;
 
-                echo "Сообщение от $sender_id для $receiver_id (response_id: $response_id): $text\n";
+                // Получаем логины отправителя и получателя
+                $stmt = $link->prepare("SELECT login FROM users WHERE id = ?");
+                $stmt->bind_param("i", $sender_id);
+                $stmt->execute();
+                $sender_login = $stmt->get_result()->fetch_assoc()['login'];
+                $stmt->close();
 
+                $stmt = $link->prepare("SELECT login FROM users WHERE id = ?");
+                $stmt->bind_param("i", $receiver_id);
+                $stmt->execute();
+                $receiver_login = $stmt->get_result()->fetch_assoc()['login'];
+                $stmt->close();
+
+                echo "Сообщение от $sender_login для $receiver_login (response_id: $response_id): $text\n";
+
+                // Сохраняем сообщение в БД
                 $stmt = $link->prepare("INSERT INTO messages (sender_id, receiver_id, message, response_id) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("iisi", $sender_id, $receiver_id, $text, $response_id);
                 $stmt->execute();
                 $stmt->close();
 
+                // Отправляем сообщение всем клиентам
                 foreach ($clients as $client) {
                     if ($client !== $server) {
                         $response = mask(json_encode([
-                            'from' => $sender_id,
-                            'to'   => $receiver_id,
+                            'from' => $sender_login,
+                            'to'   => $receiver_login,
                             'text' => $text,
                             'time' => date("Y-m-d H:i:s"),
                             'response_id' => $response_id
@@ -109,7 +125,6 @@ while (true) {
     }
 }
 
-// Функция рукопожатия (handshake)
 function perform_handshake($header, $client) {
     $key = '';
     if (preg_match('/Sec-WebSocket-Key: (.*)\r\n/', $header, $matches)) {

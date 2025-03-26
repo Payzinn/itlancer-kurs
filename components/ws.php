@@ -6,8 +6,10 @@ socket.onopen = () => console.log("Подключен вебсокет");
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const chatBlock = document.querySelector('.chat_block');
+    
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${data.from}: ${data.text}`;
+    
     chatBlock.appendChild(messageDiv);
 };
 
@@ -27,9 +29,10 @@ document.querySelector('#chatForm').addEventListener('submit', (e) => {
     };
 
     socket.send(JSON.stringify(msg));
-    console.log(`Отправлено от ${msg.sender_id} для ${msg.receiver_id} (response_id: ${msg.response_id}): ${msg.text}`);
+    console.log(`Отправлено от <?php echo $_SESSION['user']['login']; ?> для ${receiverId} (response_id: ${responseId}): ${message}`);
 
     messageInput.value = "";  
 });
+
 
 </script>
