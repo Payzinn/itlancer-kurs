@@ -66,8 +66,37 @@ if($_SESSION['user']['role_id'] == 1){
             $my_responses_from_freelancers[$count]['response']['user_login'] = $response['user_login'];
             $count++;
             
-        }}else{
-            echo "";
+        }}
+        
+    }
+}
+?>
+
+<?php
+if($_SESSION['user']['role_id'] == 2){
+    $my_responses_to_customers = [];
+    $count = 0;
+    $select_response_for_freelancer = "SELECT `responses`.`id` AS `resp_id`, `responses`.`user_id` AS `resp_user_id`,`users`.`login` AS `user_login`, `responses`.`order_id` AS `resp_ord_id`,`responses`.`description` AS `resp_desc`, `responses`.`term` AS `resp_term`, `responses`.`responser_price` AS `resps_price`, `responses`.`status_id` AS `resp_status_id`, `orders`.`name` AS `ord_name`, `orders`.`user_id` AS `ord_user_id`,`status`.`name` AS `status_name`, `orders`.`description` AS `ord_desc`
+        FROM `responses` 
+        LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id` 
+        LEFT JOIN `status` ON `orders`.`status_id` = `status`.`id` 
+        LEFT JOIN `users` ON `orders`.`user_id` = `users`.`id`
+    WHERE `responses`.`user_id` = '{$_SESSION['user']['id']}'";
+    $select_response_for_freelancer_res = $link->query($select_response_for_freelancer);
+    if($select_response_for_freelancer_res->num_rows>0){
+        while ($response_for_freelancer = $select_response_for_freelancer_res->fetch_assoc()) {
+            $my_responses_to_customers[$count]['response']['id'] = $response_for_freelancer['resp_id'];
+            $my_responses_to_customers[$count]['response']['freelancer'] = $response_for_freelancer['resp_user_id'];
+            $my_responses_to_customers[$count]['response']['order_id'] = $response_for_freelancer['resp_ord_id'];
+            $my_responses_to_customers[$count]['response']['description'] = $response_for_freelancer['ord_desc'];
+            $my_responses_to_customers[$count]['response']['order_name'] = $response_for_freelancer['ord_name'];
+            $my_responses_to_customers[$count]['response']['order_description'] = $response_for_freelancer['ord_name'];
+            $my_responses_to_customers[$count]['response']['term'] = $response_for_freelancer['resp_term'];
+            $my_responses_to_customers[$count]['response']['freelancer_price'] = $response_for_freelancer['resps_price'];
+            $my_responses_to_customers[$count]['response']['status_id'] = $response_for_freelancer['resp_status_id'];
+            $my_responses_to_customers[$count]['response']['status_name'] = $response_for_freelancer['status_name'];
+            $my_responses_to_customers[$count]['response']['user_login'] = $response_for_freelancer['user_login'];
+            $count++;
         }
         
     }
@@ -97,7 +126,8 @@ if($_SESSION['user']['role_id'] == 1){
             <hr>
             <div class="info_user_items">
             <?php
-            foreach($my_responses_from_freelancers as $response){ 
+            if($_SESSION['user']['role_id'] == 1){
+                foreach($my_responses_from_freelancers as $response){ 
             ?>
             <div class="info_user_items-item">
             Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> <?php echo $response['response']['user_login'];  ?></a>
@@ -111,6 +141,7 @@ if($_SESSION['user']['role_id'] == 1){
             if(empty($my_responses_from_freelancers)) {
                 echo "<p>Откликов нет</p>"; 
             }
+        }
             ?>
         </div>
         </div>

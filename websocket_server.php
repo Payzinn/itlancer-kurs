@@ -123,24 +123,32 @@ function perform_handshake($header, $client) {
     socket_write($client, $upgradeHeader, strlen($upgradeHeader));
 }
 
-// Функция декодирования сообщений
 function unmask($text) {
+    if (strlen($text) < 2) {
+        return "";  
+    }
+
     $length = ord($text[1]) & 127;
-    if ($length == 126) {
+
+    if ($length == 126 && strlen($text) >= 8) {
         $masks = substr($text, 4, 4);
-        $data  = substr($text, 8);
-    } elseif ($length == 127) {
+        $data = substr($text, 8);
+    } elseif ($length == 127 && strlen($text) >= 14) {
         $masks = substr($text, 10, 4);
-        $data  = substr($text, 14);
-    } else {
+        $data = substr($text, 14);
+    } elseif (strlen($text) >= 6) {
         $masks = substr($text, 2, 4);
-        $data  = substr($text, 6);
+        $data = substr($text, 6);
+    } else {
+        return "";  
     }
-    $decoded = "";
+
+    $text = "";
     for ($i = 0; $i < strlen($data); ++$i) {
-        $decoded .= $data[$i] ^ $masks[$i % 4];
+        $text .= $data[$i] ^ $masks[$i % 4];
     }
-    return $decoded;
+
+    return $text;
 }
 
 // Функция кодирования сообщений
