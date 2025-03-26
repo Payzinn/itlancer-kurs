@@ -4,7 +4,7 @@ include "components/header.php";
 
 $conditions = [];
 $conditions[] = "`status_id` = 1";
-
+$conditions[] = "`moderation_status_id` IN (1, 2)";
 if (isset($_GET['search']) && trim($_GET['search']) !== '') {
     $search = $link->real_escape_string(trim($_GET['search']));
     $conditions[] = "`name` LIKE '%$search%'";

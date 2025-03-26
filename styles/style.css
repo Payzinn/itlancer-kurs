@@ -598,6 +598,14 @@ form textarea{
     text-decoration: underline;
 }
 
+.order-item h3 {
+    cursor: pointer;
+    margin: 8px 0;
+}
+.order-details {
+    margin-left: 20px;
+}
+
 /* response.php */
 
 .form-item-msg{
@@ -612,4 +620,25 @@ form textarea{
     flex-direction: column;
     height: 600px;
     overflow-y: scroll;
+}
+
+/* admin.php */
+/* Стили для уведомления */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: -300px; 
+    width: 250px;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    font-family: Arial, sans-serif;
+    transition: right 0.5s ease-in-out;
+    z-index: 10000;
+}
+.notification.success {
+    background-color: #4CAF50; 
+}
+.notification.error {
+    background-color: #f44336; 
 }
