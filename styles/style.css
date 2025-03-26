@@ -110,7 +110,9 @@ body{
     flex-direction: row;
     justify-content: center;
     gap: 5px;
+    
 }
+
 
 .role .radio {
     flex: 1 1 auto;
@@ -129,7 +131,7 @@ body{
     border-radius: 0.5rem;
     border: none;
     padding: .5rem 0;
-    color: rgba(51, 65, 85, 1);
+    color: rgb(255, 255, 255);
     border: 0.1px solid black;
     transition: all .15s ease-in-out;
   }
@@ -140,6 +142,8 @@ body{
     border: none;
     color: white;
 }
+
+
 
 .role .radio input:checked + .name {
     background-color: rgb(61, 61, 168);
@@ -163,6 +167,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 600px;
 }
 
 .form-item p{
@@ -369,6 +374,10 @@ form textarea{
     color: rgb(116, 116, 239);
 }
 
+.my_portfolio_block .change{
+    text-align: center;
+}
+
 /* orders.php */
 .orders_block{
     display: flex;
@@ -504,6 +513,10 @@ form textarea{
     justify-content: center;
 }
 .worker_feedback_block .form__block input, button, textarea{
+}
+
+.worker_feedback_block h2{
+    text-align: center;
 }
 
 /* STYLE FOR MODAL */

@@ -36,7 +36,9 @@ $portfolio = $select_portfolio_res -> fetch_assoc();
             <?php
             if($user_id == $_SESSION['user']['id']){
             ?>
-            <a href="make_portfolio.php?hour=<?php echo $portfolio['hour_salary'] ?>?month=<?php echo $portfolio['month_salary'] ?>?experience=<?php echo $portfolio['experience'] ?>?resume_text=<?php echo $portfolio['resume_text'] ?>">Изменить профиль</a>
+            <div class="change">
+                <a href="make_portfolio.php?hour=<?php echo $portfolio['hour_salary'] ?>?month=<?php echo $portfolio['month_salary'] ?>?experience=<?php echo $portfolio['experience'] ?>?resume_text=<?php echo $portfolio['resume_text'] ?>" class="portfolio_link">Изменить профиль</a>
+            </div>
             <?php } ?>
             <div class="my_portfolio_block-item standart">
                 <h2>Почасовая оплата</h2>

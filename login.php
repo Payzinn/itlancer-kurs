@@ -21,7 +21,7 @@ include "components/header.php";
                     <?php }unset($_SESSION['error']); ?> 
                         
             <div class="form__block">
-                <form action="actions/log.php" method="post" class='form'>
+                <form action="actions/log.php" method="post" class='form standart'>
                     <div class="form-item">
                         <input type="text" name="login" placeholder='Логин' required>
                     </div>

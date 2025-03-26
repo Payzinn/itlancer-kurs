@@ -2,6 +2,7 @@
 include "components/core.php";
 include "components/header.php";
 
+
 $order_id = intval($_GET['id']);
 
 $select_order = "SELECT `orders`.`id` AS `ord_id`, `orders`.`name` AS `ord_name`, `orders`.`description` AS `ord_desc`, `orders`.`user_id` AS `ord_user_id`, `orders`.`date` AS `ord_date`, `orders`.`price` AS `ord_price`, `users`.`login` AS `user_login`, `users`.`date` AS `user_date`, `sphere_types`.`name` AS `sphere_types_name`, `spheres`.`name` AS `spheres_name`
@@ -64,6 +65,14 @@ $order = $select_order_res->fetch_assoc();
 </div>
 <?php
 if(isset($_SESSION['user']) and $_SESSION['user']['role_id'] == 2){
+    $check_response = "SELECT * FROM `responses` WHERE `user_id` = '{$_SESSION['user']['id']}' AND `order_id` = '$order_id'";
+    $check_response_res = $link->query($check_response);
+    if($check_response_res -> num_rows < 1){
+        $select_portfolio = "SELECT * FROM `portfolio` WHERE `user_id` = '{$_SESSION['user']['id']}'";
+        $select_portfolio_res = $link->query($select_portfolio);
+        if($select_portfolio_res -> num_rows > 0){
+        
+
 ?>
 <div class="worker_feedback">
     <div class="content">
@@ -92,4 +101,16 @@ if(isset($_SESSION['user']) and $_SESSION['user']['role_id'] == 2){
         </div>
     </div>
 </div>
-<?php } ?>
+<?php }else{ ?>
+<div class="worker_feedback">
+    <div class="content">
+        <div class="worker_feedback_block">
+            <h2>Настройте <a href="make_portfolio.php">портфолио</a> прежде чем откликаться на заказы</h2>
+        </div>
+    </div>
+</div>
+<?php }}
+if($check_response_res -> num_rows > 0){
+    echo "<h2 style='text-align:center;'>Вы уже отклинулись на этот заказ</h2>";
+}
+} ?>

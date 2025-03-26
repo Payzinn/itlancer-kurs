@@ -14,7 +14,7 @@ include "components/header.php";
     <div class="content">
         <div class="orders_block">
             <?php
-            $select_order = "SELECT * FROM `orders`";
+            $select_order = "SELECT * FROM `orders` WHERE `status_id` = 1";
             $select_order_res = $link->query($select_order);
             if($select_order_res->num_rows < 1){
                 echo "<h2>Заказов нет.</h2>";
@@ -39,14 +39,8 @@ include "components/header.php";
                         <?php }else{ ?>
                         <p><?php echo $responses; ?> отклик</p>
                             <?php } ?>
-                            <!-- <p>9 просмотров</p> -->
                             <p><?php echo $row['date']; ?></p>
                         </div>
-                        <!-- <div class="orders_block_item-tags">
-                            <p class="tag">Телеграм</p>
-                            <p class="tag">Бот</p>
-                            <p class="tag">aiogram3</p>
-                        </div> -->
                     </div>
                     <div class="orders_block_item-price">
                         <p class="price"><?php echo $row['price']; ?> ₽</p>

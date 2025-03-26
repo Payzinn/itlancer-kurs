@@ -15,12 +15,9 @@ $order_id = intval($_GET['order_id']);
 $user_id = $_SESSION['user']['id'];
 $user_role = $_SESSION['user']['role_id'];
 
-// Проверка доступа в зависимости от роли
 if ($user_role == 1) {
-    // Заказчик: проверяем, принадлежит ли заказ ему
     $check_access = "SELECT * FROM `orders` WHERE `user_id` = '{$user_id}' AND `id` = '{$order_id}'";
 } else {
-    // Фрилансер: проверяем, принадлежит ли отклик ему
     $check_access = "SELECT * FROM `responses` WHERE `user_id` = '{$user_id}' AND `id` = '{$response_id}'";
 }
 
@@ -31,19 +28,37 @@ if ($access_res->num_rows < 1) {
     exit;
 }
 
-// Обработка POST запроса
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    if ($_POST['action'] === "+") {
-        $stmt = $link->prepare("UPDATE responses SET status_id = 2 WHERE id = ?");
-        $stmt->bind_param("i", $response_id);
-        $stmt->execute();
-        $stmt->close();
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit;
+    if ($_POST['action'] === "1") {
+        $responses = "UPDATE `responses` SET `status_id` = 2 WHERE id = '$response_id'";
+        $responses_res = $link->query($responses);
+
+        $orders = "UPDATE `orders` SET `status_id` = 2 WHERE id = '$order_id'";
+        $orders_res = $link->query($orders);
+
+    }
+    if ($_POST['action'] === "2") {
+        $responses = "UPDATE `responses` SET `status_id` = 3 WHERE id = '$response_id'";
+        $responses_res = $link->query($responses);
+    }
+    if ($_POST['action'] === "3") {
+        $responses = "UPDATE `responses` SET `status_id` = 4 WHERE id = '$response_id'";
+        $responses_res = $link->query($responses);
+
+        $orders = "UPDATE orders SET status_id = 4 WHERE id = '$order_id'";
+        $orders_res = $link->query($orders);
+
+    }
+    if ($_POST['action'] === "4") {
+        $responses = "UPDATE `responses` SET `status_id` = 3 WHERE id = '$response_id'";
+        $responses_res = $link->query($responses);
+
+        $orders = "UPDATE `orders` SET `status_id` = 3 WHERE id = '$order_id'";
+        $orders_res = $link->query($orders);
+
     }
 }
 
-// Получение данных отклика
 $response = [];
 $select_response = "
     SELECT `responses`.*, `users`.`login` AS `freelancer`
@@ -80,15 +95,25 @@ while ($row = $select_response_res->fetch_assoc()) {
             <p>Срок в днях: <?php echo $response['response']['term']; ?></p>
             <?php if ($response['response']['status_id'] != 2 AND $_SESSION['user']['role_id'] == 1) { ?>
                 <form action="" method="post">
-                    <button name="action" value="+">Принять предложение</button>
-                    <button name="action" value="-">Отклонить предложение</button>
+                    <button name="action" value="1">Принять предложение</button>
+                    <button name="action" value="2">Отклонить предложение</button>
                 </form>
-            <?php } else { ?>
+            <?php  if($response['response']['status_id'] == 2) { ?>
                 <p><strong>Предложение принято. Чат активен.</strong></p>
-            <?php } ?>
+                <form action="" method="post">
+                    <button name="action" value="3">Заказ выполнен</button>
+                    <button name="action" value="4">Отменить заказ</button>
+                </form>
+            <?php }if($response['response']['status_id'] == 1){ ?>
+                <p><strong>Предложение на рассмотрении.</strong></p>
+                <?php }if($response['response']['status_id'] == 3){ ?>
+                <p><strong>Предложение отменено.</strong></p>
+                <?php }} ?>
         </div>
     </div>
 </div>
+
+
 
 <?php if ($response['response']['status_id'] == 2) { ?>
     <div class="chat">

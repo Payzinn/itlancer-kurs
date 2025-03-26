@@ -32,7 +32,7 @@ while($row = $result_sphere->fetch_assoc()) {
     <div class="content">
         <div class="my_portfolio_block">
             <div class="form__block">
-                <form action="actions/make_portfolio.php" method="post" class='form'>
+                <form action="actions/make_portfolio.php" method="post" class='form standart'>
                 <div class="form-item">
                             <label for="sphere" class="label">Сфера деятельности</label>
                             <button id="sphere_modal">Выбрать сферу деятельности</button>

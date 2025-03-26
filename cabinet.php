@@ -1,5 +1,19 @@
 <?php
 include "components/core.php";
+$currentTab = $_GET['tab'] ?? 'my_responses';
+
+$statusMap = [
+    'my_responses' => 1,  
+    'in_work'      => 2,   
+    'completed'    => 4    
+];
+
+if (!isset($statusMap[$currentTab])) {
+    $currentTab = 'my_responses';
+}
+
+$desiredStatus = $statusMap[$currentTab];
+
 if(!isset($_SESSION['user'])){
     header("Location: index.php");
 }
@@ -37,6 +51,7 @@ include "components/header.php";
     </div>
 </div>
 <?php
+// заказчик
 if($_SESSION['user']['role_id'] == 1){
     $my_responses_from_freelancers = [];
     $select_my_orders = "SELECT `id` FROM `orders` WHERE `user_id` = '{$_SESSION['user']['id']}'";
@@ -49,7 +64,8 @@ if($_SESSION['user']['role_id'] == 1){
         LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id` 
         LEFT JOIN `status` ON `orders`.`status_id` = `status`.`id` 
         LEFT JOIN `users` ON `responses`.`user_id` = `users`.`id`
-        WHERE `responses`.`order_id` = '{$ord['id']}'";
+        WHERE `responses`.`order_id` = '{$ord['id']}'
+        AND `responses`.`status_id` = '$desiredStatus'";
         $select_response_res = $link->query($select_response);
         if($select_response_res ->num_rows>0){
         while($response = $select_response_res->fetch_assoc()){
@@ -73,6 +89,8 @@ if($_SESSION['user']['role_id'] == 1){
 ?>
 
 <?php
+// фрилансер
+
 if($_SESSION['user']['role_id'] == 2){
     $my_responses_to_customers = [];
     $count = 0;
@@ -81,7 +99,8 @@ if($_SESSION['user']['role_id'] == 2){
         LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id` 
         LEFT JOIN `status` ON `responses`.`status_id` = `status`.`id` 
         LEFT JOIN `users` ON `orders`.`user_id` = `users`.`id`
-    WHERE `responses`.`user_id` = '{$_SESSION['user']['id']}'";
+    WHERE `responses`.`user_id` = '{$_SESSION['user']['id']}'
+    AND `responses`.`status_id` = '$desiredStatus'";
     $select_response_for_freelancer_res = $link->query($select_response_for_freelancer);
     if($select_response_for_freelancer_res->num_rows>0){
         while ($response_for_freelancer = $select_response_for_freelancer_res->fetch_assoc()) {
@@ -117,18 +136,21 @@ if($_SESSION['user']['role_id'] == 2){
 
             <div class="info_user_department">
                 <?php if ($_SESSION['user']['role_id'] == 1) { ?>
-                    <a href="" class="profile">Отклики исполнителей</a> 
+                    <!-- Заказчик -->
+                    <a href="?tab=my_responses" class="profile">Отклики исполнителей</a>
                 <?php } else { ?>
-                    <a href="" class="profile">Мои отклики</a> 
+                    <!-- Фрилансер -->
+                    <a href="?tab=my_responses" class="profile">Мои отклики</a>
                 <?php } ?>
-                <a href="" class="profile">В работе</a>
-                <a href="" class="profile">Завершённые</a>
+                
+                <a href="?tab=in_work" class="profile">В работе</a>
+                <a href="?tab=completed" class="profile">Завершённые</a>
             </div>
             <hr>
 
             <div class="info_user_items">
                 <?php
-                // Вывод для заказчиков
+                // заказчик
                 if ($_SESSION['user']['role_id'] == 1) {
                     if (!empty($my_responses_from_freelancers)) {
                         foreach ($my_responses_from_freelancers as $response) { 
@@ -146,11 +168,17 @@ if($_SESSION['user']['role_id'] == 2){
                 <?php
                         } 
                     } else {
-                        echo "<p>Откликов нет</p>"; 
+                        if ($currentTab == 'my_responses') {
+                            echo "<p>На ваши заказы ещё никто не откликнулся</p>"; 
+                        } elseif ($currentTab == 'in_work') {
+                            echo "<p>Нет заказов в работе</p>";
+                        } elseif ($currentTab == 'completed') {
+                            echo "<p>Нет завершённых заказов</p>";
+                        }
                     }
                 }
 
-                // ✅ Вывод для фрилансеров
+                // фрилансер
                 if ($_SESSION['user']['role_id'] == 2) {
                     if (!empty($my_responses_to_customers)) {
                         foreach ($my_responses_to_customers as $response) { 
@@ -169,7 +197,13 @@ if($_SESSION['user']['role_id'] == 2){
                 <?php
                         } 
                     } else {
-                        echo "<p>Вы ещё не откликались</p>"; 
+                        if ($currentTab == 'my_responses') {
+                            echo "<p>Вы ещё не откликались</p>"; 
+                        } elseif ($currentTab == 'in_work') {
+                            echo "<p>Нет заказов в работе</p>";
+                        } elseif ($currentTab == 'completed') {
+                            echo "<p>Нет завершённых заказов</p>";
+                        }
                     }
                 }
                 ?>
