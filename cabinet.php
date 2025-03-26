@@ -79,7 +79,7 @@ if($_SESSION['user']['role_id'] == 2){
     $select_response_for_freelancer = "SELECT `responses`.`id` AS `resp_id`, `responses`.`user_id` AS `resp_user_id`,`users`.`login` AS `user_login`, `responses`.`order_id` AS `resp_ord_id`,`responses`.`description` AS `resp_desc`, `responses`.`term` AS `resp_term`, `responses`.`responser_price` AS `resps_price`, `responses`.`status_id` AS `resp_status_id`, `orders`.`name` AS `ord_name`, `orders`.`user_id` AS `ord_user_id`,`status`.`name` AS `status_name`, `orders`.`description` AS `ord_desc`
         FROM `responses` 
         LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id` 
-        LEFT JOIN `status` ON `orders`.`status_id` = `status`.`id` 
+        LEFT JOIN `status` ON `responses`.`status_id` = `status`.`id` 
         LEFT JOIN `users` ON `orders`.`user_id` = `users`.`id`
     WHERE `responses`.`user_id` = '{$_SESSION['user']['id']}'";
     $select_response_for_freelancer_res = $link->query($select_response_for_freelancer);
@@ -96,6 +96,7 @@ if($_SESSION['user']['role_id'] == 2){
             $my_responses_to_customers[$count]['response']['status_id'] = $response_for_freelancer['resp_status_id'];
             $my_responses_to_customers[$count]['response']['status_name'] = $response_for_freelancer['status_name'];
             $my_responses_to_customers[$count]['response']['user_login'] = $response_for_freelancer['user_login'];
+            $my_responses_to_customers[$count]['response']['customer_id'] = $response_for_freelancer['ord_user_id'];
             $count++;
         }
         
@@ -108,42 +109,71 @@ if($_SESSION['user']['role_id'] == 2){
         <div class="info_user_block">
             <div class="info_user_header">
                 <div class="info_user_header-item"><p>Информация</p></div>
-                <?php if($_SESSION['user']['role_id'] == 1){ ?>
-                <div class="info_user_header-item"><a href="makeorder.php" class="portfolio_link">Разместить заказ</a></div> 
+                <?php if ($_SESSION['user']['role_id'] == 1) { ?>
+                    <div class="info_user_header-item"><a href="makeorder.php" class="portfolio_link">Разместить заказ</a></div> 
                 <?php } ?>
             </div>
             <hr>
+
             <div class="info_user_department">
-                <?php if($_SESSION['user']['role_id'] == 1){ ?>
-                <a href="" class="profile">Отклики исполнителей</a> 
-                <?php }else{ ?>
-                <a href="" class="profile">Отклики заказчиков</a> 
+                <?php if ($_SESSION['user']['role_id'] == 1) { ?>
+                    <a href="" class="profile">Отклики исполнителей</a> 
+                <?php } else { ?>
+                    <a href="" class="profile">Мои отклики</a> 
                 <?php } ?>
                 <a href="" class="profile">В работе</a>
                 <a href="" class="profile">Завершённые</a>
-                <!-- <a href="" class="profile">Приглашения</a> -->
             </div>
             <hr>
+
             <div class="info_user_items">
-            <?php
-            if($_SESSION['user']['role_id'] == 1){
-                foreach($my_responses_from_freelancers as $response){ 
-            ?>
-            <div class="info_user_items-item">
-            Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> <?php echo $response['response']['user_login'];  ?></a>
-            <br>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>"><?php echo $response['response']['order_name']; ?></a>
-            <br>Посмотреть отклик: <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id'];?>">отклик</a>
-                <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
-                <p>Цена исполнителя: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
+                <?php
+                // Вывод для заказчиков
+                if ($_SESSION['user']['role_id'] == 1) {
+                    if (!empty($my_responses_from_freelancers)) {
+                        foreach ($my_responses_from_freelancers as $response) { 
+                ?>
+                            <div class="info_user_items-item">
+                                <p>Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> 
+                                    <?php echo $response['response']['user_login']; ?></a></p>
+                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>">
+                                    <?php echo $response['response']['order_name']; ?></a></p>
+                                <p>Посмотреть отклик: 
+                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>">Отклик</a></p>
+                                <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
+                                <p>Цена исполнителя: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
+                            </div>
+                <?php
+                        } 
+                    } else {
+                        echo "<p>Откликов нет</p>"; 
+                    }
+                }
+
+                // ✅ Вывод для фрилансеров
+                if ($_SESSION['user']['role_id'] == 2) {
+                    if (!empty($my_responses_to_customers)) {
+                        foreach ($my_responses_to_customers as $response) { 
+                ?>
+                            <div class="info_user_items-item">
+                                <p>Заказчик: <a href="portfolio.php?user_id=<?php echo $response['response']['customer_id']; ?>">
+                                    <?php echo $response['response']['user_login']; ?></a></p>
+                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>">
+                                    <?php echo $response['response']['order_name']; ?></a></p>
+                                <p>Посмотреть отклик: 
+                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>">Отклик</a></p>
+                                <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
+                                <p>Моя цена: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
+                                <p>Статус: <?php echo $response['response']['status_name']; ?></p>
+                            </div>
+                <?php
+                        } 
+                    } else {
+                        echo "<p>Вы ещё не откликались</p>"; 
+                    }
+                }
+                ?>
             </div>
-            <?php
-            } 
-            if(empty($my_responses_from_freelancers)) {
-                echo "<p>Откликов нет</p>"; 
-            }
-        }
-            ?>
-        </div>
         </div>
     </div>
 </div>
