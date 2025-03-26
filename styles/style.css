@@ -390,7 +390,12 @@ form textarea{
     background-color: rgba(50, 50, 50, 100);
     border-radius: 10px;
     padding: 20px;
-    width: 600px;
+    width: 620px;
+}
+
+.sphere_types_group{
+    display: flex;
+    flex-direction: column;
 }
 
 .order{
@@ -417,6 +422,12 @@ form textarea{
     gap: 5px;
 }
 
+.orders_control_block{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
 .tag{
     padding: 5px;
     background-color: rgb(255, 252, 249);
@@ -438,6 +449,21 @@ form textarea{
 
 .price{
     color: green;
+}
+
+.reset-button{
+    background-color: rgb(77, 77, 210); 
+    color: white;
+    padding: 10px;
+    transition: .2s;
+    border: none;
+    text-decoration: none;
+    border-radius: 10px;
+    text-align: center;
+}
+.reset-button:hover{
+    background-color: #803fc0;
+    cursor: pointer;
 }
 
 /* makeorder.php */
