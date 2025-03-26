@@ -29,6 +29,9 @@
                     <a href="./reg.php" class="link">Регистрация</a>
                     <?php }else{ ?>
                     <a href="./cabinet.php" class="link"><?php echo $_SESSION['user']['login']; ?></a>
+                    <?php if(isset($_SESSION['user']) and $_SESSION['user']['right_id'] == 1){ ?>
+                        <a href="./admin.php" class="link">Админ панель</a>
+                        <?php } ?>
                     <?php } ?>
                 </div>
             </div>

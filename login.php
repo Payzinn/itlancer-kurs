@@ -26,7 +26,7 @@ include "components/header.php";
                         <input type="text" name="login" placeholder='Логин' required>
                     </div>
                     <div class="form-item">
-                        <input type="password" name="password" minlength=8 placeholder='Пароль' required>
+                        <input type="password" name="password" placeholder='Пароль' required>
                     </div>
                     <div class="form-item">
                         <button>Авторизоваться</button>

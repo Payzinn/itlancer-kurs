@@ -71,7 +71,6 @@ while($row = $result_sphere->fetch_assoc()) {
 
                     <div class="form-item">
                         <label for="fileInput" class="label">Файлы</label>
-                        <!-- Блок для Dropzone -->
                         <input type="file" name="file[]" id="fileInput" multiple accept=".doc,.docx,.jpeg,.jpg">
                         <div class="file-preview" id="filePreview"></div>
                         <div class="error-message" id="errorMessage"></div>
