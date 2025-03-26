@@ -23,10 +23,10 @@ $order = $select_order_res->fetch_assoc();
     </div>
 </div>
 <?php
-                    if(isset($_SESSION['error'])){
-                    ?> 
-                        <h2 style="color: red; text-align:center;"><?php echo $_SESSION['error']; ?></h2>
-                    <?php }unset($_SESSION['error']); ?> 
+if(isset($_SESSION['error'])){
+?> 
+    <h2 style="color: red; text-align:center;"><?php echo $_SESSION['error']; ?></h2>
+<?php }unset($_SESSION['error']); ?> 
 <div class="response">
     <div class="content">
         <div class="response_block standart">
@@ -52,6 +52,32 @@ $order = $select_order_res->fetch_assoc();
                 <h2>Описание заказа</h2>
                 <p><?php echo $order['ord_desc']; ?></p>
             </div>
+            <?php
+            $select_files = "SELECT * FROM `files` WHERE `order_id` = $order_id";
+            $select_files_res = $link->query($select_files);
+            ?>
+            <div class="order_info_block-item standart">
+        <h2>Прикреплённые файлы</h2>
+                    <?php
+                    if ($select_files_res->num_rows > 0) {
+                        while ($file = $select_files_res->fetch_assoc()) {
+                            ?>
+                            <div class="file_item">
+                                <p>
+                                    <a href="<?php echo $file['path']; ?>" class="portfolio_link" target="_blank">
+                                        <?php echo basename($file['path']); ?>
+                                    </a>
+                                </p>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<p>Нет прикреплённых файлов</p>";
+                    }
+                    ?>
+                </div>
+            </div>
+
             <div class="order_info_block-item standart">
                 <h2>Разделы</h2>
                 <p><?php echo $order['spheres_name']; ?>/<?php echo $order['sphere_types_name']; ?></p>
