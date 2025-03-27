@@ -98,26 +98,32 @@ while ($row = $select_response_res->fetch_assoc()) {
             <p><?php echo $response['response']['description']; ?></p>
             <p>Цена: <?php echo $response['response']['responser_price']; ?> ₽</p>
             <p>Срок в днях: <?php echo $response['response']['term']; ?></p>
-            <?php if ($response['response']['status_id'] != 2 AND $_SESSION['user']['role_id'] == 1) { ?>
+
+            <?php 
+            if ($response['response']['status_id'] != 2 AND $_SESSION['user']['role_id'] == 1 AND $response['response']['status_id'] != 4 AND $response['response']['status_id'] != 3) { ?>
                 <form action="" method="post">
                     <button name="action" value="1">Принять предложение</button>
                     <button name="action" value="2">Отклонить предложение</button>
                 </form>
-            <?php  if($response['response']['status_id'] == 2) { ?>
+            <?php } 
+            if ($response['response']['status_id'] == 2) { ?>
                 <p><strong>Предложение принято. Чат активен.</strong></p>
-                <form action="" method="post">
-                    <button name="action" value="3">Заказ выполнен</button>
-                    <button name="action" value="4">Отменить заказ</button>
-                </form>
-            <?php }if($response['response']['status_id'] == 1){ ?>
+                <?php if ($_SESSION['user']['role_id'] == 1) {  ?>
+                    <form action="" method="post">
+                        <button name="action" value="3">Заказ выполнен</button>
+                        <button name="action" value="4">Отменить заказ</button>
+                    </form>
+                <?php } ?>
+            <?php } 
+            if ($response['response']['status_id'] == 1) { ?>
                 <p><strong>Предложение на рассмотрении.</strong></p>
-                <?php }if($response['response']['status_id'] == 3){ ?>
+            <?php } 
+            if ($response['response']['status_id'] == 3) { ?>
                 <p><strong>Предложение отменено.</strong></p>
-                <?php }} ?>
+            <?php } ?>
         </div>
     </div>
 </div>
-
 
 
 <?php if ($response['response']['status_id'] == 2) { ?>
