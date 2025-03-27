@@ -359,7 +359,9 @@ form textarea{
     border-radius: 10px;
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
     width: 550px;
     margin: 10px;

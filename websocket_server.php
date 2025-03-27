@@ -22,7 +22,6 @@ $clients = [$server];
 
 echo "WebSocket сервер запущен на ws://$host:$port\n";
 
-// Функция отправки истории чата для нового клиента 
 function sendChatHistory($client, $link, $user_id) {
     $stmt = $link->prepare("
         SELECT * FROM messages 
@@ -53,7 +52,6 @@ while (true) {
     
     foreach ($read as $sock) {
         if ($sock === $server) {
-            // Новый клиент подключается
             $newClient = socket_accept($server);
             $clients[] = $newClient;
             $header = socket_read($newClient, 1024);
@@ -86,7 +84,6 @@ while (true) {
                 $text        = $message['text'];
                 $response_id = $message['response_id'] ?? 0;
 
-                // Получаем логины отправителя и получателя
                 $stmt = $link->prepare("SELECT login FROM users WHERE id = ?");
                 $stmt->bind_param("i", $sender_id);
                 $stmt->execute();
@@ -101,13 +98,11 @@ while (true) {
 
                 echo "Сообщение от $sender_login для $receiver_login (response_id: $response_id): $text\n";
 
-                // Сохраняем сообщение в БД
                 $stmt = $link->prepare("INSERT INTO messages (sender_id, receiver_id, message, response_id) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("iisi", $sender_id, $receiver_id, $text, $response_id);
                 $stmt->execute();
                 $stmt->close();
 
-                // Отправляем сообщение всем клиентам
                 foreach ($clients as $client) {
                     if ($client !== $server) {
                         $response = mask(json_encode([
@@ -166,7 +161,6 @@ function unmask($text) {
     return $text;
 }
 
-// Функция кодирования сообщений
 function mask($text) {
     $b1 = 0x81;
     $length = strlen($text);

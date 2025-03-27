@@ -180,6 +180,8 @@ include "components/header.php";
 </div>
 
 <div id="notification" class="notification"></div>
+<script src="/script/admin_modals.js" defer></script>
+<script src="/script/notification_admin.js" defer></script>
 
 <?php
 include "components/footer.php";

@@ -26,7 +26,6 @@ include "components/header.php";
         </div>
     </div>
 </div>
-<a href="logout.php">logout</a>
 
 <div class="portfolio">
     <div class="content">
@@ -35,16 +34,19 @@ include "components/header.php";
             if($_SESSION['user']['role_id'] == 2){
             ?>
             <div class="portfolio_block">
-                <?php
-                $select_portfolio = "SELECT * FROM `portfolio` WHERE `user_id` = '{$_SESSION['user']['id']}'";
-                $select_portfolio_res = $link->query($select_portfolio);
-                if($select_portfolio_res -> num_rows < 1){
-                ?>
-                <p>Ваш портфолио ещё не настроен!</p>
-                <a href="make_portfolio.php" class='portfolio_link'>Настроить портфолио</a>
-                <?php }else{ ?>
-                    <a href="portfolio.php?user_id=<?php echo $_SESSION['user']['id'] ?>" class='portfolio_link'>Портфолио</a>
-                    <?php } ?>
+                <div class="portfolio_block-item">
+                    <?php
+                    $select_portfolio = "SELECT * FROM `portfolio` WHERE `user_id` = '{$_SESSION['user']['id']}'";
+                    $select_portfolio_res = $link->query($select_portfolio);
+                    if($select_portfolio_res -> num_rows < 1){
+                    ?>
+                    <p>Ваш портфолио ещё не настроен!</p>
+                    <a href="make_portfolio.php" class='portfolio_link'>Настроить портфолио</a>
+                    <?php }else{ ?>
+                        <a href="portfolio.php?user_id=<?php echo $_SESSION['user']['id'] ?>" class='portfolio_link'>Портфолио</a>
+                        <?php } ?>
+                </div>
+                    <a href="logout.php" class='portfolio_link'>Выйти </a>
             </div>
             <?php } ?>
         </div>
@@ -156,12 +158,12 @@ if($_SESSION['user']['role_id'] == 2){
                         foreach ($my_responses_from_freelancers as $response) { 
                 ?>
                             <div class="info_user_items-item">
-                                <p>Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>"> 
+                                <p>Исполнитель: <a href="portfolio.php?user_id=<?php echo $response['response']['freelancer']; ?>" class="portfolio_link"> 
                                     <?php echo $response['response']['user_login']; ?></a></p>
-                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>">
+                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>" class="portfolio_link">
                                     <?php echo $response['response']['order_name']; ?></a></p>
                                 <p>Посмотреть отклик: 
-                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>">Отклик</a></p>
+                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>" class="portfolio_link">Отклик</a></p>
                                 <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
                                 <p>Цена исполнителя: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
                             </div>
@@ -184,12 +186,12 @@ if($_SESSION['user']['role_id'] == 2){
                         foreach ($my_responses_to_customers as $response) { 
                 ?>
                             <div class="info_user_items-item">
-                                <p>Заказчик: <a href="portfolio.php?user_id=<?php echo $response['response']['customer_id']; ?>">
+                                <p>Заказчик: <a href="portfolio.php?user_id=<?php echo $response['response']['customer_id']; ?>" class="portfolio_link">
                                     <?php echo $response['response']['user_login']; ?></a></p>
-                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>">
+                                <p>Заказ: <a href="order.php?id=<?php echo $response['response']['order_id']; ?>" class="portfolio_link">
                                     <?php echo $response['response']['order_name']; ?></a></p>
                                 <p>Посмотреть отклик: 
-                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>">Отклик</a></p>
+                                    <a href="response.php?resp_id=<?php echo $response['response']['id']; ?>&order_id=<?php echo $response['response']['order_id']; ?>" class="portfolio_link">Отклик</a></p>
                                 <p>Срок: <?php echo $response['response']['term']; ?> дней</p>
                                 <p>Моя цена: <?php echo $response['response']['freelancer_price']; ?> ₽</p>
                                 <p>Статус: <?php echo $response['response']['status_name']; ?></p>

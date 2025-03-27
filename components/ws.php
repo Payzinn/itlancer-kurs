@@ -1,8 +1,6 @@
 <script>
 const socket = new WebSocket("ws://localhost:8080/?user_id=<?php echo $_SESSION['user']['id']; ?>");
 
-socket.onopen = () => console.log("Подключен вебсокет");
-
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const chatBlock = document.querySelector('.chat_block');

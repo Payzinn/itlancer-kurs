@@ -27,6 +27,15 @@ if(isset($_SESSION['error'])){
 ?> 
     <h2 style="color: red; text-align:center;"><?php echo $_SESSION['error']; ?></h2>
 <?php }unset($_SESSION['error']); ?> 
+
+<div class="customer">
+    <div class="content">
+        <div class="customer_block standart">
+            <h2>Заказчик</h2>
+            <a href="portfolio.php?user_id=<?php echo $order['ord_user_id']; ?>" class="order"><?php echo $order['user_login']; ?></a>
+        </div>
+    </div>
+</div>
 <div class="response">
     <div class="content">
         <div class="response_block standart">

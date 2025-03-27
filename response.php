@@ -61,9 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
 $response = [];
 $select_response = "
-    SELECT `responses`.*, `users`.`login` AS `freelancer`
+    SELECT `responses`.*, `users`.`login` AS `freelancer`, `orders`.`name` AS `order_name`
     FROM `responses`
     LEFT JOIN `users` ON `responses`.`user_id` = `users`.`id`
+    LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id`
     WHERE `responses`.`id` = '{$response_id}'";
 $select_response_res = $link->query($select_response);
 
@@ -75,6 +76,8 @@ while ($row = $select_response_res->fetch_assoc()) {
     $response['response']['term'] = $row['term'];
     $response['response']['responser_price'] = $row['responser_price'];
     $response['response']['status_id'] = $row['status_id'];
+    $response['response']['order_id'] = $row['order_id'];
+    $response['response']['order_name'] = $row['order_name'];
 }
 ?>
 
@@ -90,6 +93,8 @@ while ($row = $select_response_res->fetch_assoc()) {
     <div class="content">
         <div class="response_block standart">
             <h1>Предложение <?php echo $response['response']['freelancer']; ?>:</h1>
+            <h2>Заказ</h2>
+            <a href="order.php?id=<?php echo $response['response']['order_id']; ?>" class="order"><?php echo $response['response']['order_name']; ?></a>
             <p><?php echo $response['response']['description']; ?></p>
             <p>Цена: <?php echo $response['response']['responser_price']; ?> ₽</p>
             <p>Срок в днях: <?php echo $response['response']['term']; ?></p>

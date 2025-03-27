@@ -2,7 +2,6 @@
 include "components/core.php";
 include "components/header.php";
 $user_id = $_GET['user_id'];
-
 ?>
 
 <div class="page_header">
@@ -21,6 +20,7 @@ $user_id = $_GET['user_id'];
     </div>
 </div>
 <?php 
+if($user['role_id'] == 2){
 $select_portfolio = "SELECT `portfolio`.*, `sphere_types`.`name` AS `spheres_types_name`, `spheres`.`name` AS `spheres_name`
 FROM `portfolio` 
 	LEFT JOIN `sphere_types` ON `portfolio`.`sphere_type_id` = `sphere_types`.`id` 
@@ -64,3 +64,28 @@ $portfolio = $select_portfolio_res -> fetch_assoc();
         </div>
     </div>
 </div>
+
+<?php }if($user['role_id'] == 1){ ?>
+<div class="my_portfolio">
+    <div class="content">
+        <div class="my_portfolio_block-item standart">
+            <p>Является заказчиком</p>
+        </div>
+        <div class="my_portfolio_block-item standart">
+            <p>Дата регистрации: <?php echo $user['date']; ?></p>
+        </div>
+        <div class="my_portfolio_block-item standart">
+            <p>Список заказов:</p>
+            <?php 
+            $select_orders = "SELECT * FROM `orders` WHERE `user_id` = '{$user['id']}'";
+            $select_orders_res = $link->query($select_orders);
+            while($order = $select_orders_res->fetch_assoc()){
+            ?>
+            <a href="order.php?id=<?php echo $order['id']; ?>" class="order"><?php echo $order['name']; ?></a>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
