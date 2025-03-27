@@ -24,9 +24,12 @@ echo "WebSocket сервер запущен на ws://$host:$port\n";
 
 function sendChatHistory($client, $link, $user_id) {
     $stmt = $link->prepare("
-        SELECT * FROM messages 
-        WHERE (sender_id = ? OR receiver_id = ?)
-        ORDER BY created_at ASC
+        SELECT m.*, u1.login AS sender_login, u2.login AS receiver_login
+        FROM messages m
+        LEFT JOIN users u1 ON m.sender_id = u1.id
+        LEFT JOIN users u2 ON m.receiver_id = u2.id
+        WHERE (m.sender_id = ? OR m.receiver_id = ?)
+        ORDER BY m.created_at ASC
     ");
     $stmt->bind_param("ii", $user_id, $user_id);
     $stmt->execute();
@@ -34,8 +37,8 @@ function sendChatHistory($client, $link, $user_id) {
 
     while ($row = $result->fetch_assoc()) {
         $message = mask(json_encode([
-            'from' => $row['sender_id'],
-            'to'   => $row['receiver_id'],
+            'from' => $row['sender_login'],  
+            'to'   => $row['receiver_login'], 
             'text' => $row['message'],
             'time' => $row['created_at'],
             'response_id' => $row['response_id']
