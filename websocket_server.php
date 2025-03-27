@@ -22,16 +22,16 @@ $clients = [$server];
 
 echo "WebSocket сервер запущен на ws://$host:$port\n";
 
-function sendChatHistory($client, $link, $user_id) {
+function sendChatHistory($client, $link, $response_id) {
     $stmt = $link->prepare("
         SELECT m.*, u1.login AS sender_login, u2.login AS receiver_login
         FROM messages m
         LEFT JOIN users u1 ON m.sender_id = u1.id
         LEFT JOIN users u2 ON m.receiver_id = u2.id
-        WHERE (m.sender_id = ? OR m.receiver_id = ?)
+        WHERE m.response_id = ?
         ORDER BY m.created_at ASC
     ");
-    $stmt->bind_param("ii", $user_id, $user_id);
+    $stmt->bind_param("i", $response_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -59,18 +59,21 @@ while (true) {
             $clients[] = $newClient;
             $header = socket_read($newClient, 1024);
             perform_handshake($header, $newClient);
-
+        
             if (preg_match("/GET\s(\/\?[^\s]+)\sHTTP/", $header, $matches)) {
                 $url = $matches[1];
                 $query = parse_url($url, PHP_URL_QUERY);
                 parse_str($query, $params);
                 $user_id = $params['user_id'] ?? 0;
+                $response_id = $params['response_id'] ?? 0; 
             } else {
                 $user_id = 0;
+                $response_id = 0;
             }
-
-            echo "Подключился пользователь: $user_id\n";
-            sendChatHistory($newClient, $link, $user_id);
+        
+            echo "Подключился пользователь: $user_id для response_id: $response_id\n";
+            sendChatHistory($newClient, $link, $response_id); 
+        
         } else {
             $data = socket_read($sock, 1024);
             if ($data === false) {

@@ -61,7 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
 $response = [];
 $select_response = "
-    SELECT `responses`.*, `users`.`login` AS `freelancer`, `orders`.`name` AS `order_name`
+    SELECT `responses`.*, 
+           `users`.`login` AS `freelancer`, 
+           `orders`.`name` AS `order_name`,
+           `orders`.`user_id` AS `order_user_id`
     FROM `responses`
     LEFT JOIN `users` ON `responses`.`user_id` = `users`.`id`
     LEFT JOIN `orders` ON `responses`.`order_id` = `orders`.`id`
@@ -78,6 +81,7 @@ while ($row = $select_response_res->fetch_assoc()) {
     $response['response']['status_id'] = $row['status_id'];
     $response['response']['order_id'] = $row['order_id'];
     $response['response']['order_name'] = $row['order_name'];
+    $response['response']['order_user_id'] = $row['order_user_id'];
 }
 ?>
 
@@ -139,11 +143,11 @@ while ($row = $select_response_res->fetch_assoc()) {
                 <div class="form__block">
                     <form id="chatForm">
                         <div class="form-item-msg">
-                            <input type="text" id="receiver_id" value="<?php echo $response['response']['freelancer_id']; ?>" hidden>
+                            <input type="text" id="receiver_id" value="<?php echo ($_SESSION['user']['role_id'] == 1) ? $response['response']['freelancer_id'] : $response['response']['order_user_id']; ?>" hidden>
                             <input type="text" id="response_id" value="<?php echo $response['response']['id']; ?>" hidden>
                             <input type="text" id="message" placeholder="Начните писать..." required>
                             <button type="submit">Отправить</button>
-                        </div>
+                        </div>                    
                     </form>
                 </div>
             </div>

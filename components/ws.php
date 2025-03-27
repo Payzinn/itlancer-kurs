@@ -1,13 +1,11 @@
 <script>
-const socket = new WebSocket("ws://localhost:8080/?user_id=<?php echo $_SESSION['user']['id']; ?>");
+const socket = new WebSocket("ws://localhost:8080/?user_id=<?php echo $_SESSION['user']['id']; ?>&response_id=<?php echo $response['response']['id']; ?>");
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const chatBlock = document.querySelector('.chat_block');
-    
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${data.from}: ${data.text}`;
-    
     chatBlock.appendChild(messageDiv);
 };
 
@@ -31,6 +29,5 @@ document.querySelector('#chatForm').addEventListener('submit', (e) => {
 
     messageInput.value = "";  
 });
-
 
 </script>

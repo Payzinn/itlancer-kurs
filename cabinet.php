@@ -132,6 +132,7 @@ if($_SESSION['user']['role_id'] == 2){
                 <div class="info_user_header-item"><p>Информация</p></div>
                 <?php if ($_SESSION['user']['role_id'] == 1) { ?>
                     <div class="info_user_header-item"><a href="makeorder.php" class="portfolio_link">Разместить заказ</a></div> 
+                    <div class="info_user_header-item"><a href="logout.php" class='portfolio_link'>Выйти </a></div> 
                 <?php } ?>
             </div>
             <hr>
